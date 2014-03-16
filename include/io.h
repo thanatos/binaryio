@@ -1,13 +1,20 @@
 #ifndef IO_H
 #define IO_H
 
+#include <limits>
+
 
 namespace io {
-	template<size_t size, typename T, typename InputIterator>
+	template<
+		size_t bytes,
+		typename T,
+		typename InputIterator,
+		unsigned int byte_size = std::numeric_limits<unsigned char>::digits
+	>
 	T read_big_endian_unsigned_int(InputIterator i) {
 		T n = 0;
-		for(size_t idx = 0; idx < size; ++idx) {
-			n = (n << 8) | static_cast<T>(*i);
+		for(size_t idx = 0; idx < bytes; ++idx) {
+			n = (n << byte_size) | static_cast<T>(*i);
 			++i;
 		}
 
@@ -23,11 +30,16 @@ namespace io {
 		}
 	}
 
-	template<size_t size, typename T, typename InputIterator>
+	template<
+		size_t bytes,
+		typename T,
+		typename InputIterator,
+		size_t byte_size = std::numeric_limits<unsigned char>::digits
+	>
 	T read_little_endian_unsigned_int(InputIterator i) {
 		T n = 0;
-		for(size_t idx = 0; idx < size; ++idx) {
-			n |= static_cast<T>(*i) << (8 * idx);
+		for(size_t idx = 0; idx < bytes; ++idx) {
+			n |= static_cast<T>(*i) << (byte_size * idx);
 			++i;
 		}
 		return n;
