@@ -3,7 +3,7 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
 
-#include "io.h"
+#include "io/io.h"
 
 
 TEST_CASE("Reading unsigned integers", "[read uints]") {
